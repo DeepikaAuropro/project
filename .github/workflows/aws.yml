@@ -71,9 +71,11 @@ jobs:
          host: ${{secrets.PUBLIC_SSH_KEY}}
          username: ubuntu
          key: ${{secrets.PRIVATE_SSH_KEY}}
-         run: 
+         run: |
           sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          sudo docker ps
+          sudo docker run $IMAGE_TAG
+          sudo docker ps -q -a
+          echo "Hello, Task Completed."
           
          
       
