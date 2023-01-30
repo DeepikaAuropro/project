@@ -73,6 +73,7 @@ jobs:
          key: ${{secrets.PRIVATE_SSH_KEY}}
          run: 
           sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          sudo docker ps
           
          
       
