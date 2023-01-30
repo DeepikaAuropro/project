@@ -68,10 +68,10 @@ jobs:
       - name: Deploy to ec2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.PUBLIC_SSH_KEY}}
-          username: ubuntu
-          key: ${{secrets.PRIVATE_SSH_KEY}}
-      - run: 
+         host: ${{secrets.PUBLIC_SSH_KEY}}
+         username: ubuntu
+         key: ${{secrets.PRIVATE_SSH_KEY}}
+         run: 
           sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
          
