@@ -9,6 +9,7 @@ resource "aws_instance" "ubuntu" {
     instance_type = "t2.micro"
     subnet_id = "subnet-0ccbfba0546dd6c07"
     security_groups = ["sg-0e10ffd1a814f34e2"]
+    key_name = "awskey"
     tags = {
       "name" = "First_Instance"
     }
