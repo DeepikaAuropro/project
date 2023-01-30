@@ -38,6 +38,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          
           aws-region: us-east-1
 
       - name: Login to Amazon ECR
@@ -49,14 +50,33 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: my-app-py
+          
           IMAGE_TAG: latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: install-aws-cli
+        uses: unfor19/install-aws-cli-action@master
+      - run: aws --version
+        shell: bash
+        
       - name: Terraform initialize
         run: terraform init
       - name: Building
         run: terraform apply -auto-approve
+      - name: Deploy to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.PUBLIC_SSH_KEY}}
+          username: ubuntu
+          key: ${{secrets.PRIVATE_SSH_KEY}}
+      - run: |
+          sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker ps
+          docker --version
+          docker images
+         
+         
       
       
