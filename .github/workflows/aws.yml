@@ -71,12 +71,9 @@ jobs:
           host: ${{secrets.PUBLIC_SSH_KEY}}
           username: ubuntu
           key: ${{secrets.PRIVATE_SSH_KEY}}
-      - run: |
+      - run: 
           sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker ps
-          docker --version
-          docker images
-         
+          
          
       
       
